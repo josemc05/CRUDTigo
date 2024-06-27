@@ -11,9 +11,10 @@ use Exception;
 class ApiCRUDController extends Controller
 {
     protected $request;
-
+    protected $logname;
     public function __construct(Request $request) {
         $this->request = $request;
+        $this->logname = 'errores'.date('Ymd').'.log';
     }
 
     public function cargarDatos(){
@@ -54,6 +55,9 @@ class ApiCRUDController extends Controller
 
         $tarea = isset($apiRequest['tarea']) && !empty($apiRequest['tarea']) ? $apiRequest['tarea'] : '';
 
+        $this->escribirlog($this->logname, '#################### '.date('H:i:s').' ##############################');
+        $this->escribirlog($this->logname, '#################### INICIANDO CREACION DE TAREA ##################');
+
         if (empty($tarea)){
             $response = [
                 "estatus" => false,
@@ -66,8 +70,15 @@ class ApiCRUDController extends Controller
         try {
             $response = Tareas::crearTarea($tarea);
 
-            if (!$response){
+            if (!$response['realizado']){
+
+                $this->escribirlog($this->logname, 'Error realizar la creacion de la tarea');
+                $this->escribirlog($this->logname, $response['archivo']);
+                $this->escribirlog($this->logname, $response['linea']);
+                $this->escribirlog($this->logname, $response['mensaje'].PHP_EOL);
+
                 $response = [
+
                     "estatus" => false,
                     "mensaje" => 'NO SE PUDO GUARDAR LA TAREA',
                 ];
@@ -80,9 +91,16 @@ class ApiCRUDController extends Controller
                 "mensaje" => 'GUARDADO CON EXITO',
             ];
 
+            $this->escribirlog($this->logname, '#################### TAREA CREADA EXITOSAMENTE ##################'.PHP_EOL);
+
             return response()->json($response);
 
         } catch (Exception $e) {
+            $this->escribirlog($this->logname, 'Error realizar la creacion de la tarea');
+            $this->escribirlog($this->logname, 'Error archivo: '.$e->getFile());
+            $this->escribirlog($this->logname, 'Error linea: '.$e->getLine());
+            $this->escribirlog($this->logname, 'Error: '.$e->getMessage().PHP_EOL);
+
             $response = [
                 "estatus" => false,
                 "mensaje" => 'OCURRIO UN ERROR AL GUARDAR LA TAREA',
@@ -94,7 +112,8 @@ class ApiCRUDController extends Controller
     }
 
     public function eliminarTarea($id){
-
+        $this->escribirlog($this->logname, '#################### '.date('H:i:s').' ##############################');
+        $this->escribirlog($this->logname, '#################### INICIANDO ELIMINACION DE TAREA ##################');
         $tareaBorrar = Tareas::find($id);
 
         if (empty($tareaBorrar)){
@@ -107,12 +126,20 @@ class ApiCRUDController extends Controller
         }
 
         try {
+
             $response = Tareas::eliminarTarea($id);
 
-            if (!$response){
+            if (!$response['realizado']){
+
+                $this->escribirlog($this->logname, 'Error realizar la creacion de la tarea');
+                $this->escribirlog($this->logname, $response['archivo']);
+                $this->escribirlog($this->logname, $response['linea']);
+                $this->escribirlog($this->logname, $response['mensaje'].PHP_EOL);
+
                 $response = [
+
                     "estatus" => false,
-                    "mensaje" => 'NO SE PUDO ELIMINAR LA TAREA',
+                    "mensaje" => 'NO SE PUDO GUARDAR LA TAREA',
                 ];
 
                 return response()->json($response, 400);
@@ -122,10 +149,16 @@ class ApiCRUDController extends Controller
                 "estatus" => true,
                 "mensaje" => 'ELIMINADO CON EXITO',
             ];
-
+            $this->escribirlog($this->logname, '#################### TAREA ELIMINADA EXITOSAMENTE ##################'.PHP_EOL);
             return response()->json($response);
 
         } catch (Exception $e) {
+
+            $this->escribirlog($this->logname, 'Error realizar la eliminacion de la tarea');
+            $this->escribirlog($this->logname, 'Error archivo: '.$e->getFile());
+            $this->escribirlog($this->logname, 'Error linea: '.$e->getLine());
+            $this->escribirlog($this->logname, 'Error: '.$e->getMessage().PHP_EOL);
+
             $response = [
                 "estatus" => false,
                 "mensaje" => 'OCURRIO UN ERROR AL ELIMINAR LA TAREA',
@@ -137,6 +170,9 @@ class ApiCRUDController extends Controller
     }
 
     public function completarTarea($id){
+        $this->escribirlog($this->logname, '#################### '.date('H:i:s').' ##############################');
+        $this->escribirlog($this->logname, '#################### INICIANDO COMPLETAR TAREA ##################');
+
         $tareaCompletar = Tareas::find($id);
 
         if (empty($tareaCompletar)){
@@ -151,10 +187,17 @@ class ApiCRUDController extends Controller
         try {
             $response = Tareas::completarTarea($id);
 
-            if (!$response){
+            if (!$response['realizado']){
+
+                $this->escribirlog($this->logname, 'Error realizar la creacion de la tarea');
+                $this->escribirlog($this->logname, $response['archivo']);
+                $this->escribirlog($this->logname, $response['linea']);
+                $this->escribirlog($this->logname, $response['mensaje'].PHP_EOL);
+
                 $response = [
+
                     "estatus" => false,
-                    "mensaje" => 'NO SE PUDO COMPLETAR LA TAREA',
+                    "mensaje" => 'NO SE PUDO GUARDAR LA TAREA',
                 ];
 
                 return response()->json($response, 400);
@@ -164,10 +207,14 @@ class ApiCRUDController extends Controller
                 "estatus" => true,
                 "mensaje" => 'COMPLETADA CON EXITO',
             ];
-
+            $this->escribirlog($this->logname, '#################### TAREA COMPLETADA EXITOSAMENTE ##################'.PHP_EOL);
             return response()->json($response);
 
         } catch (Exception $e) {
+            $this->escribirlog($this->logname, 'Error realizar completar tarea');
+            $this->escribirlog($this->logname, 'Error archivo: '.$e->getFile());
+            $this->escribirlog($this->logname, 'Error linea: '.$e->getLine());
+            $this->escribirlog($this->logname, 'Error: '.$e->getMessage().PHP_EOL);
             $response = [
                 "estatus" => false,
                 "mensaje" => 'OCURRIO UN ERROR AL COMPLETAR LA TAREA',
@@ -178,6 +225,8 @@ class ApiCRUDController extends Controller
     }
 
     public function modificarTarea($id){
+        $this->escribirlog($this->logname, '#################### '.date('H:i:s').' ##############################');
+        $this->escribirlog($this->logname, '#################### INICIANDO MODIFICACION DE TAREA ##################');
         $apiRequest = $this->request->all();
 
         $tarea = isset($apiRequest['tarea']) && !empty($apiRequest['tarea']) ? $apiRequest['tarea'] : '';
@@ -205,10 +254,17 @@ class ApiCRUDController extends Controller
         try {
             $response = Tareas::modificarTarea($id, $tarea);
 
-            if (!$response){
+            if (!$response['realizado']){
+
+                $this->escribirlog($this->logname, 'Error realizar la creacion de la tarea');
+                $this->escribirlog($this->logname, $response['archivo']);
+                $this->escribirlog($this->logname, $response['linea']);
+                $this->escribirlog($this->logname, $response['mensaje'].PHP_EOL);
+
                 $response = [
+
                     "estatus" => false,
-                    "mensaje" => 'NO SE PUDO MODIFICAR LA TAREA',
+                    "mensaje" => 'NO SE PUDO GUARDAR LA TAREA',
                 ];
 
                 return response()->json($response, 400);
@@ -218,10 +274,14 @@ class ApiCRUDController extends Controller
                 "estatus" => true,
                 "mensaje" => 'MODIFICADO CON EXITO',
             ];
-
+            $this->escribirlog($this->logname, '#################### TAREA MODIFICADA EXITOSAMENTE ##################'.PHP_EOL);
             return response()->json($response);
 
         } catch (Exception $e) {
+            $this->escribirlog($this->logname, 'Error realizar la modificacion de la tarea');
+            $this->escribirlog($this->logname, 'Error archivo: '.$e->getFile());
+            $this->escribirlog($this->logname, 'Error linea: '.$e->getLine());
+            $this->escribirlog($this->logname, 'Error: '.$e->getMessage().PHP_EOL);
             $response = [
                 "estatus" => false,
                 "mensaje" => 'OCURRIO UN ERROR AL MODIFICAR LA TAREA',
@@ -229,5 +289,19 @@ class ApiCRUDController extends Controller
 
             return response()->json($response, 400);
         }
+    }
+
+    public function escribirlog($logname , $mensaje){
+        $basePath = public_path().'/log/';
+        if ( !is_dir( $basePath ) ) {
+                if ( mkdir( $basePath, 0777, true ) ) {
+                    @chmod( $basePath, 0777 );
+                }
+            }
+        if ( $logname != NULL && $mensaje != NULL ) {
+            $logname = $basePath.$logname;
+            $write = @file_put_contents ( $logname, $mensaje . PHP_EOL, FILE_APPEND );
+        }
+        return true;
     }
 }

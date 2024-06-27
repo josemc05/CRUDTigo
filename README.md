@@ -7,6 +7,7 @@ Prueba de conocimientos técnicos. Proyecto Laravel 8 - CRUD para manejo de tare
 - [Instalación](#instalación)
 - [Uso](#uso)
 - [Funciones del Sistema](#Funciones)
+- [Soporte y Errores](#Soporte)
 
 ## Instalación
 Preacondiciones:
@@ -56,5 +57,16 @@ El sistema cuenta con la funcionalidad principal de gestionar tareas.
 
     2.3 Eliminar: Al presionar el botón rojo con el icono de la cruz, se mostrará un modal para pedir confirmación de si el usuario está seguro que desea la tarea seleccionada. Al presionar el botón `eliminar` del modal, se efectuará la eliminación.
 
+## Soporte
 
+En caso de que existe algun error al ejecutarse alguno de los procesos que componen las funcionalidades del sistema, se incluyó la generación de logs por dia.
 
+Estos archivos se pueden acceder de la siguiente manera:
+
+`urldelproyecto/log/errores(fecha del dia a consultar en formato Ymd).log`
+
+Ejemplo en caso de tener el proyecto en localhost:
+
+`http://127.0.0.1:8000/log/errores20240627.log`
+
+asi se podrá acceder al archivo log y poder visualizar, de forma mas clara a modo de soporte, donde puede estar fallando el programa o generando conflictos.

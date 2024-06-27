@@ -8,6 +8,8 @@ class CRUD {
     constructor() {
         this.cargarTabla();
         this.nuevaTarea();
+        this.completarTarea();
+        this.eliminarTarea();
 
     }
 
@@ -76,8 +78,6 @@ class CRUD {
         });
         $('#accionesCol').css('width', '12%');
         _this.editarTarea();
-        _this.completarTarea();
-        _this.eliminarTarea();
     }
 
     nuevaTarea(){
