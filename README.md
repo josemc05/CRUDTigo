@@ -19,6 +19,7 @@ Preacondiciones:
 2. Instala las dependencias utilizando el comando `composer install`.
 3. Dentro de la carpeta del proyecto, existe una carpeta con el nombre de `BD`, ahí se encuentra un script SQL llamado `BDbase.sql` con los comandos para la creación de la base de datos y los procedimientos almacenados. Se deben ejecutar este script en su programa de gestion de base de datos de preferencia.
 4. Editar el archivo `.env.example` cambiando los campos:
+
     DB_HOST= `Host donde esta ejecutandose MySQL`
 
     DB_PORT= `Puerto donde esta ejecutandose MySQL`
@@ -52,7 +53,7 @@ El sistema cuenta con la funcionalidad principal de gestionar tareas.
     2.1 Completar: Al presionar el botón verde con el icono del gancho, se completará la tarea y se tachara el texto. 
 
     2.2 Editar: Al presionar el botón azul con el icono del lapiz y papel, se habilitará un input en la celda correspondiente a la tarea seleccionada. Ahí, se podrá editar el texto de la tarea y, al presionar `enter`, se actualizará la tarea con el nuevo texto. En caso de que desee dejar de editar o desee salir del modo de edición, se debe dar click nuevamente en el botón azul con el icono del lapiz y papel.
-    
+
     2.3 Eliminar: Al presionar el botón rojo con el icono de la cruz, se mostrará un modal para pedir confirmación de si el usuario está seguro que desea la tarea seleccionada. Al presionar el botón `eliminar` del modal, se efectuará la eliminación.
 
 
