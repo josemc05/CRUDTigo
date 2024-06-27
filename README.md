@@ -6,7 +6,7 @@ Prueba de conocimientos técnicos. Proyecto Laravel 8 - CRUD para manejo de tare
 
 - [Instalación](#instalación)
 - [Uso](#uso)
-- [Funciones del Sistema](#Funciones del Sistema)
+- [Funciones del Sistema](#Funciones)
 
 ## Instalación
 Preacondiciones:
@@ -42,7 +42,7 @@ php artisan serve
 
 Al ejecutar este comando, le mostrará en que puerto se esta ejecutando el proyecto.
 
-## Funciones del Sistema
+## Funciones
 
 El sistema cuenta con la funcionalidad principal de gestionar tareas.
 
