@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\CRUDController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::controller(CRUDController::class)->group(function (){
+    Route::get('/', 'showCRUD');
 });
+
